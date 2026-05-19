@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Gallery</title>
+
+    <link rel="stylesheet"
+        href="style.css">
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+<style>
+    /* Gallery Section */
+
+.gallery-section{
+
+    padding: 70px 50px;
+
+    background-color: #f5f5f5;
+}
+
+.gallery-container{
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(300px, 1fr));
+
+    gap: 30px;
+}
+
+.gallery-card{
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+    transition: 0.4s;
+}
+
+.gallery-card:hover{
+
+    transform: translateY(-10px);
+}
+
+.gallery-card img{
+
+    width: 100%;
+
+    height: 250px;
+
+    object-fit: cover;
+}
+
+.gallery-content{
+
+    padding: 20px;
+}
+
+.gallery-content h3{
+
+    margin-bottom: 10px;
+
+    font-size: 24px;
+}
+
+.gallery-content p{
+
+    color: #555;
+
+    line-height: 1.6;
+}
+</style>
+
+<body>
+
+    <!-- Navbar -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <h2>Travel Explorer</h2>
+            </div>
+
+            <ul class="nav-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="destinations.html">Destinations</a></li>
+
+                <li><a href="packages.html">Packages</a></li>
+
+                <li><a href="gallery.html">Gallery</a></li>
+
+                <li><a href="contact.html">Contact</a></li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <!-- Gallery Section -->
+
+    <section class="gallery-section">
+
+        <h1 class="section-title">
+            Travel Gallery
+        </h1>
+
+        <div class="gallery-container">
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"
+                    alt="Maldives">
+
+                <div class="gallery-content">
+                    <h3>Maldives</h3>
+                    <p>Crystal clear beaches and luxury vibes.</p>
+                </div>
+
+            </div>
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600"
+                    alt="Switzerland">
+
+                <div class="gallery-content">
+                    <h3>Switzerland</h3>
+                    <p>Beautiful snowy mountains and nature.</p>
+                </div>
+
+            </div>
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"
+                    alt="Paris">
+
+                <div class="gallery-content">
+                    <h3>Paris</h3>
+                    <p>The city of love and Eiffel Tower.</p>
+                </div>
+
+            </div>
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1526481280695-3c4691b8ce89?w=600"
+                    alt="Dubai">
+
+                <div class="gallery-content">
+                    <h3>Dubai</h3>
+                    <p>Luxury shopping and desert safari adventures.</p>
+                </div>
+
+            </div>
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?w=600"
+                    alt="Goa">
+
+                <div class="gallery-content">
+                    <h3>Goa</h3>
+                    <p>Sunny beaches and amazing nightlife.</p>
+                </div>
+
+            </div>
+
+            <div class="gallery-card">
+
+                <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=600"
+                    alt="Bali">
+
+                <div class="gallery-content">
+                    <h3>Bali</h3>
+                    <p>Waterfalls, temples and tropical beauty.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <h3>Travel Explorer</h3>
+
+            <p>
+                Explore Beautiful Destinations Around The World
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
