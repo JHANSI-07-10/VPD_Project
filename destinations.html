@@ -2,8 +2,10 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Destinations</title>
 
     <link rel="stylesheet" href="style.css">
@@ -13,6 +15,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
 </head>
 
 <body>
@@ -47,7 +50,9 @@
 
         <div class="destination-container">
 
-            <div class="card">
+            <!-- Maldives -->
+            <div class="card" onclick="showDetails('maldives')">
+
                 <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"
                     alt="Maldives">
 
@@ -56,9 +61,12 @@
                 <p>
                     Beautiful beaches, luxury resorts and crystal-clear water.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Switzerland -->
+            <div class="card" onclick="showDetails('switzerland')">
+
                 <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600"
                     alt="Switzerland">
 
@@ -67,8 +75,12 @@
                 <p>
                     Snow mountains, scenic railways and unforgettable landscapes.
                 </p>
+
             </div>
-                        <div class="card">
+
+            <!-- Kashmir -->
+            <div class="card" onclick="showDetails('kashmir')">
+
                 <img src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=600"
                     alt="Kashmir">
 
@@ -77,9 +89,12 @@
                 <p>
                     Stunning valleys, snow-covered mountains and peaceful lakes.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Kerala -->
+            <div class="card" onclick="showDetails('kerala')">
+
                 <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600"
                     alt="Kerala">
 
@@ -88,9 +103,12 @@
                 <p>
                     Famous for backwaters, greenery, houseboats and relaxing beaches.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Istanbul -->
+            <div class="card" onclick="showDetails('istanbul')">
+
                 <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600"
                     alt="Istanbul">
 
@@ -99,9 +117,12 @@
                 <p>
                     A magical blend of history, culture and beautiful architecture.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Bali -->
+            <div class="card" onclick="showDetails('bali')">
+
                 <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=600"
                     alt="Bali">
 
@@ -110,9 +131,12 @@
                 <p>
                     Tropical paradise with waterfalls, temples and stunning beaches.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Turkey -->
+            <div class="card" onclick="showDetails('turkey')">
+
                 <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600"
                     alt="Turkey">
 
@@ -121,9 +145,12 @@
                 <p>
                     Discover vibrant bazaars, hot air balloons and rich traditions.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Goa -->
+            <div class="card" onclick="showDetails('goa')">
+
                 <img src="https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?w=600"
                     alt="Goa">
 
@@ -132,9 +159,12 @@
                 <p>
                     Enjoy sunny beaches, nightlife and delicious seafood vibes.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Paris -->
+            <div class="card" onclick="showDetails('paris')">
+
                 <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600"
                     alt="Paris">
 
@@ -143,9 +173,12 @@
                 <p>
                     Explore the Eiffel Tower and romantic city atmosphere.
                 </p>
+
             </div>
 
-            <div class="card">
+            <!-- Dubai -->
+            <div class="card" onclick="showDetails('dubai')">
+
                 <img src="https://images.unsplash.com/photo-1526481280695-3c4691b8ce89?w=600"
                     alt="Dubai">
 
@@ -154,6 +187,116 @@
                 <p>
                     Luxury shopping, skyscrapers and desert adventures.
                 </p>
+
+            </div>
+
+        </div>
+
+        <!-- Details Section -->
+
+        <div class="details-box">
+
+            <!-- Kashmir -->
+
+            <div id="kashmir" class="place-info">
+
+                <h2>Kashmir</h2>
+
+                <h3>Estimated Cost</h3>
+                <p>₹25,000 - ₹60,000</p>
+
+                <h3>Hotels</h3>
+                <ul>
+                    <li>The Khyber Himalayan Resort</li>
+                    <li>Vivanta Dal View</li>
+                </ul>
+
+                <h3>Tourist Places</h3>
+                <ul>
+                    <li>Dal Lake</li>
+                    <li>Gulmarg</li>
+                    <li>Pahalgam</li>
+                </ul>
+
+                <h3>Shopping Areas</h3>
+                <ul>
+                    <li>Lal Chowk</li>
+                    <li>Polo View Market</li>
+                </ul>
+
+                <h3>Foods To Try</h3>
+                <ul>
+                    <li>Rogan Josh</li>
+                    <li>Kahwa</li>
+                </ul>
+
+            </div>
+
+            <!-- Kerala -->
+
+            <div id="kerala" class="place-info">
+
+                <h2>Kerala</h2>
+
+                <h3>Estimated Cost</h3>
+                <p>₹15,000 - ₹40,000</p>
+
+                <h3>Hotels</h3>
+                <ul>
+                    <li>Taj Bekal Resort</li>
+                    <li>Leela Kovalam</li>
+                </ul>
+
+                <h3>Tourist Places</h3>
+                <ul>
+                    <li>Munnar</li>
+                    <li>Alleppey</li>
+                    <li>Kochi</li>
+                </ul>
+
+                <h3>Foods To Try</h3>
+                <ul>
+                    <li>Appam</li>
+                    <li>Puttu</li>
+                    <li>Kerala Fish Curry</li>
+                </ul>
+
+            </div>
+
+            <!-- Dubai -->
+
+            <div id="dubai" class="place-info">
+
+                <h2>Dubai</h2>
+
+                <h3>Estimated Cost</h3>
+                <p>₹70,000 - ₹1,50,000</p>
+
+                <h3>Hotels</h3>
+                <ul>
+                    <li>Atlantis The Palm</li>
+                    <li>Burj Al Arab</li>
+                </ul>
+
+                <h3>Tourist Places</h3>
+                <ul>
+                    <li>Burj Khalifa</li>
+                    <li>Palm Jumeirah</li>
+                    <li>Dubai Marina</li>
+                </ul>
+
+                <h3>Shopping Areas</h3>
+                <ul>
+                    <li>Dubai Mall</li>
+                    <li>Gold Souk</li>
+                </ul>
+
+                <h3>Foods To Try</h3>
+                <ul>
+                    <li>Shawarma</li>
+                    <li>Luqaimat</li>
+                </ul>
+
             </div>
 
         </div>
@@ -173,6 +316,23 @@
         </div>
 
     </footer>
+
+    <!-- JavaScript -->
+
+    <script>
+
+        function showDetails(place) {
+
+            let places = document.querySelectorAll(".place-info");
+
+            places.forEach((item) => {
+                item.style.display = "none";
+            });
+
+            document.getElementById(place).style.display = "block";
+        }
+
+    </script>
 
 </body>
 
