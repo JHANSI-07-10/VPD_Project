@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Packages</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <h2>Travel Explorer</h2>
+            </div>
+
+            <ul class="nav-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="destinations.html">Destinations</a></li>
+
+                <li><a href="packages.html">Packages</a></li>
+
+                <li><a href="#">Gallery</a></li>
+
+                <li><a href="contact.html">Contact</a></li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <!-- Hero Section -->
+
+    <section class="package-hero">
+
+        <div class="hero-content">
+
+            <h1>Plan Your Dream Vacation ✈️</h1>
+
+            <p>
+                Enter your travel details and get an estimated package cost instantly.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- Packages Section -->
+
+    <section class="packages">
+
+        <h2 class="section-title">Book Your Travel Package</h2>
+
+        <div class="package-form-container">
+
+            <form class="package-form" onsubmit="calculatePackage(event)">
+
+                <input type="text"
+                    id="name"
+                    placeholder="Enter Your Name"
+                    required>
+
+                <input type="number"
+                    placeholder="Enter Your Age"
+                    required>
+
+                <select required>
+
+                    <option value="">Select Gender</option>
+
+                    <option>Male</option>
+
+                    <option>Female</option>
+
+                    <option>Other</option>
+
+                </select>
+
+                <input type="number"
+                    id="days"
+                    placeholder="Number of Days to Stay"
+                    required>
+
+                <input type="number"
+                    id="budget"
+                    placeholder="Enter Your Budget ₹"
+                    required>
+
+                <select id="stay" required>
+
+                    <option value="">Type of Stay</option>
+
+                    <option>Shared Room</option>
+
+                    <option>Separate Room</option>
+
+                    <option>Luxury Resort</option>
+
+                    <option>Villa Stay</option>
+
+                    <option>Budget Hotel</option>
+
+                </select>
+
+                <select id="destination" required>
+
+                    <option value="">Preferred Destination</option>
+
+                    <option>Maldives</option>
+
+                    <option>Kashmir</option>
+
+                    <option>Dubai</option>
+
+                    <option>Kerala</option>
+
+                    <option>Bali</option>
+
+                    <option>Paris</option>
+
+                    <option>Goa</option>
+
+                    <option>Turkey</option>
+
+                </select>
+
+                <select required>
+
+                    <option value="">Travel Type</option>
+
+                    <option>Adventure</option>
+
+                    <option>Family Trip</option>
+
+                    <option>Honeymoon</option>
+
+                    <option>Solo Travel</option>
+
+                    <option>Friends Trip</option>
+
+                </select>
+
+                <textarea placeholder="Additional Requirements"></textarea>
+
+                <button type="submit">Calculate Package</button>
+
+            </form>
+
+        </div>
+
+        <!-- Result Box -->
+
+        <div id="result-box"></div>
+
+    </section>
+
+    <!-- Why Choose Us -->
+
+    <section class="about">
+
+        <div class="about-content">
+
+            <h2>Why Choose Us?</h2>
+
+            <p>
+                We provide affordable luxury travel experiences, customized vacation planning,
+                premium hotels and unforgettable adventures across the world.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <h3>Travel Explorer</h3>
+
+            <p>
+                Explore Beautiful Destinations Around The World
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- JavaScript -->
+
+    <script>
+
+        function calculatePackage(event){
+
+            event.preventDefault();
+
+            let name =
+                document.getElementById("name").value;
+
+            let days =
+                parseInt(document.getElementById("days").value);
+
+            let budget =
+                parseInt(document.getElementById("budget").value);
+
+            let stay =
+                document.getElementById("stay").value;
+
+            let destination =
+                document.getElementById("destination").value;
+
+            let stayCost = 0;
+
+            if(stay === "Shared Room"){
+                stayCost = 1500;
+            }
+
+            else if(stay === "Separate Room"){
+                stayCost = 3000;
+            }
+
+            else if(stay === "Luxury Resort"){
+                stayCost = 8000;
+            }
+
+            else if(stay === "Villa Stay"){
+                stayCost = 12000;
+            }
+
+            else{
+                stayCost = 2000;
+            }
+
+            let foodCost = 1000 * days;
+
+            let travelCost = 5000;
+
+            let totalCost =
+                (stayCost * days)
+                + foodCost
+                + travelCost;
+
+            let resultMessage = "";
+
+            if(budget >= totalCost){
+
+                resultMessage =
+
+                `
+                <h2>Travel Package Result 🌍</h2>
+
+                <p><strong>Name:</strong> ${name}</p>
+
+                <p><strong>Destination:</strong> ${destination}</p>
+
+                <p><strong>Stay Type:</strong> ${stay}</p>
+
+                <p><strong>Days:</strong> ${days}</p>
+
+                <p><strong>Estimated Cost:</strong> ₹${totalCost}</p>
+
+                <p style="color:green;">
+                    ✅ Your budget is sufficient for this trip.
+                </p>
+                `;
+            }
+
+            else{
+
+                resultMessage =
+
+                `
+                <h2>Travel Package Result 🌍</h2>
+
+                <p><strong>Name:</strong> ${name}</p>
+
+                <p><strong>Destination:</strong> ${destination}</p>
+
+                <p><strong>Estimated Cost:</strong> ₹${totalCost}</p>
+
+                <p style="color:red;">
+                    ❌ Your budget is lower than the estimated travel cost.
+                </p>
+                `;
+            }
+
+            document.getElementById("result-box").innerHTML =
+                resultMessage;
+        }
+
+    </script>
+
+
+</body>
+
+</html>
