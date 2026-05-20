@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reviews — Travel Explorer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ══════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════ */
+    :root {
+      --navy:    #0d1b2a;
+      --dark:    #1a2940;
+      --teal:    #0fa3b1;
+      --teal2:   #0d8a96;
+      --gold:    #f6c90e;
+      --sand:    #f7f3ee;
+      --white:   #ffffff;
+      --border:  #e0dbd4;
+      --muted:   #7a7268;
+      --text:    #1a1612;
+      --card-bg: #ffffff;
+      --shadow:  rgba(13,27,42,.10);
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Poppins', sans-serif;
+      --radius:  16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--sand);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ══════════════════════════════════════════
+       NAVBAR (matches your existing style)
+    ══════════════════════════════════════════ */
+    header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(13,27,42,.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 2px 24px rgba(0,0,0,.18);
+    }
+
+    .navbar {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 32px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo h2 {
+      font-family: var(--ff-head);
+      font-size: 22px; font-weight: 700;
+      color: var(--teal);
+      letter-spacing: -.3px;
+    }
+
+    .nav-links {
+      display: flex; gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      transition: color .2s;
+      letter-spacing: .3px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--teal); }
+
+    /* ══════════════════════════════════════════
+       PAGE HERO
+    ══════════════════════════════════════════ */
+    .reviews-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--dark) 60%, #0a2233 100%);
+      padding: 80px 32px 70px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reviews-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(15,163,177,.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(246,201,14,.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .reviews-hero h1 {
+      font-family: var(--ff-head);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 900; color: var(--white);
+      letter-spacing: -1px; line-height: 1.1;
+      margin-bottom: 14px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .reviews-hero h1 span { color: var(--teal); font-style: italic; }
+
+    .reviews-hero p {
+      font-size: 16px; color: rgba(255,255,255,.6);
+      max-width: 480px; margin: 0 auto 36px;
+      line-height: 1.7;
+      animation: fadeUp .6s .1s ease both;
+    }
+
+    /* overall stats row */
+    .hero-stats {
+      display: flex; justify-content: center;
+      gap: 40px; flex-wrap: wrap;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-num {
+      font-family: var(--ff-head);
+      font-size: 38px; font-weight: 900;
+      color: var(--gold); line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 12px; color: rgba(255,255,255,.5);
+      margin-top: 4px; letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       MAIN LAYOUT
+    ══════════════════════════════════════════ */
+    .page-body {
+      max-width: 1200px; margin: 0 auto;
+      padding: 56px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ══════════════════════════════════════════
+       LEFT — REVIEWS FEED
+    ══════════════════════════════════════════ */
+    .reviews-feed { min-width: 0; }
+
+    /* filter bar */
+    .filter-bar {
+      display: flex; align-items: center;
+      gap: 10px; flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .filter-label {
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); margin-right: 4px;
+    }
+
+    .filter-btn {
+      font-family: var(--ff-body);
+      font-size: 13px; font-weight: 500;
+      padding: 8px 18px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--white); color: var(--muted);
+      cursor: pointer; transition: all .2s;
+    }
+
+    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active {
+      background: var(--teal); border-color: var(--teal);
+      color: var(--white); font-weight: 600;
+    }
+
+    .sort-select {
+      margin-left: auto;
+      font-family: var(--ff-body); font-size: 13px;
+      padding: 8px 14px; border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--white); color: var(--text);
+      cursor: pointer; outline: none;
+    }
+
+    /* review card */
+    .review-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 18px;
+      transition: all .25s;
+      animation: fadeUp .5s ease both;
+    }
+
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px var(--shadow);
+      border-color: rgba(15,163,177,.25);
+    }
+
+    .review-card-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .reviewer-info {
+      display: flex; align-items: center; gap: 14px;
+    }
+
+    .reviewer-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      object-fit: cover; flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+
+    .reviewer-avatar-placeholder {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700;
+      color: var(--white); flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+
+    .reviewer-name {
+      font-size: 15px; font-weight: 600;
+      color: var(--text); margin-bottom: 2px;
+    }
+
+    .reviewer-meta {
+      font-size: 12px; color: var(--muted);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .reviewer-meta span {
+      display: flex; align-items: center; gap: 3px;
+    }
+
+    /* stars */
+    .stars {
+      display: flex; gap: 2px; flex-shrink: 0;
+    }
+
+    .star {
+      font-size: 16px; color: #ddd;
+      transition: color .1s;
+    }
+
+    .star.filled  { color: var(--gold); }
+    .star.half    { color: var(--gold); opacity: .5; }
+
+    /* destination tag */
+    .dest-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(15,163,177,.08);
+      border: 1px solid rgba(15,163,177,.2);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 12px; font-weight: 600; color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    /* review text */
+    .review-title {
+      font-family: var(--ff-head);
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 8px; color: var(--text);
+      letter-spacing: -.2px;
+    }
+
+    .review-text {
+      font-size: 14px; color: #4a4440;
+      line-height: 1.8; margin-bottom: 16px;
+    }
+
+    /* review photos */
+    .review-photos {
+      display: flex; gap: 8px; margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .review-photo {
+      width: 80px; height: 80px; border-radius: 10px;
+      object-fit: cover; cursor: pointer;
+      transition: transform .2s;
+      border: 1px solid var(--border);
+    }
+
+    .review-photo:hover { transform: scale(1.05); }
+
+    /* card footer */
+    .review-card-footer {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .review-date {
+      font-size: 12px; color: var(--muted);
+    }
+
+    .helpful-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .helpful-label {
+      font-size: 12px; color: var(--muted);
+    }
+
+    .helpful-btn {
+      display: flex; align-items: center; gap: 5px;
+      font-family: var(--ff-body); font-size: 12px;
+      font-weight: 600; color: var(--muted);
+      background: var(--sand); border: 1.5px solid var(--border);
+      border-radius: 100px; padding: 5px 12px;
+      cursor: pointer; transition: all .2s;
+    }
+
+    .helpful-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .helpful-btn.liked { border-color: var(--teal); color: var(--teal); background: rgba(15,163,177,.07); }
+
+    /* load more */
+    .load-more {
+      text-align: center; margin-top: 32px;
+    }
+
+    .btn-load {
+      font-family: var(--ff-body); font-size: 15px;
+      font-weight: 600; color: var(--teal);
+      background: var(--white); border: 2px solid var(--teal);
+      border-radius: 100px; padding: 14px 40px;
+      cursor: pointer; transition: all .25s;
+    }
+
+    .btn-load:hover {
+      background: var(--teal); color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(15,163,177,.25);
+    }
+
+    /* ══════════════════════════════════════════
+       RIGHT SIDEBAR
+    ══════════════════════════════════════════ */
+    .sidebar { display: flex; flex-direction: column; gap: 24px; }
+
+    .sidebar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .sidebar-card h3 {
+      font-family: var(--ff-head);
+      font-size: 19px; font-weight: 700;
+      margin-bottom: 20px; color: var(--text);
+      letter-spacing: -.2px;
+    }
+
+    /* rating breakdown */
+    .rating-big {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .rating-num {
+      font-family: var(--ff-head);
+      font-size: 60px; font-weight: 900;
+      color: var(--navy); line-height: 1;
+    }
+
+    .rating-right { display: flex; flex-direction: column; gap: 4px; }
+
+    .rating-stars-big { display: flex; gap: 3px; }
+
+    .rating-stars-big .star { font-size: 22px; }
+
+    .rating-count {
+      font-size: 13px; color: var(--muted);
+    }
+
+    .bar-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .bar-label {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      width: 12px; text-align: right;
+    }
+
+    .bar-track {
+      flex: 1; height: 7px;
+      background: var(--border); border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      transition: width .8s ease;
+    }
+
+    .bar-count {
+      font-size: 12px; color: var(--muted); width: 28px;
+    }
+
+    /* write review form */
+    .form-group { margin-bottom: 14px; }
+
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--text); margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; font-family: var(--ff-body); font-size: 14px;
+      color: var(--text); background: var(--sand);
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; outline: none;
+      transition: border-color .2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--teal); background: var(--white); }
+
+    .form-group textarea { resize: vertical; min-height: 90px; }
+
+    /* star picker */
+    .star-picker {
+      display: flex; gap: 6px; margin-bottom: 6px;
+    }
+
+    .star-pick {
+      font-size: 28px; cursor: pointer;
+      color: #ddd; transition: color .15s, transform .15s;
+      user-select: none;
+    }
+
+    .star-pick:hover,
+    .star-pick.active { color: var(--gold); transform: scale(1.15); }
+
+    .btn-submit {
+      width: 100%; font-family: var(--ff-body); font-size: 15px;
+      font-weight: 700; color: var(--white);
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      border: none; border-radius: 10px; padding: 14px;
+      cursor: pointer; transition: all .25s;
+      margin-top: 4px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(15,163,177,.35);
+    }
+
+    .form-success {
+      display: none; text-align: center; padding: 16px;
+      background: rgba(15,163,177,.08);
+      border: 1px solid rgba(15,163,177,.3);
+      border-radius: 10px; margin-top: 12px;
+      font-size: 14px; font-weight: 600; color: var(--teal);
+    }
+
+    /* destination spotlight */
+    .top-dest-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+
+    .top-dest-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .top-dest-rank {
+      font-family: var(--ff-head);
+      font-size: 20px; font-weight: 700;
+      color: var(--border); width: 24px; flex-shrink: 0;
+    }
+
+    .top-dest-img {
+      width: 48px; height: 48px; border-radius: 10px;
+      object-fit: cover; flex-shrink: 0;
+    }
+
+    .top-dest-info { flex: 1; }
+
+    .top-dest-name {
+      font-size: 14px; font-weight: 600; color: var(--text);
+    }
+
+    .top-dest-stars { display: flex; gap: 2px; margin-top: 2px; }
+
+    .top-dest-stars .star { font-size: 11px; }
+
+    /* ══════════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════════ */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.85); z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+
+    .lightbox.open { display: flex; animation: fadeIn .2s ease; }
+
+    .lightbox img {
+      max-width: 90vw; max-height: 85vh;
+      border-radius: 12px; object-fit: contain;
+      box-shadow: 0 32px 80px rgba(0,0,0,.5);
+    }
+
+    .lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      font-size: 32px; color: var(--white);
+      cursor: pointer; line-height: 1;
+      transition: opacity .2s;
+    }
+
+    .lightbox-close:hover { opacity: .7; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.6);
+      text-align: center; padding: 28px 32px;
+      font-size: 13px;
+    }
+
+    footer strong { color: var(--teal); font-weight: 600; }
+
+    /* ══════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .review-card:nth-child(1) { animation-delay: .05s }
+    .review-card:nth-child(2) { animation-delay: .10s }
+    .review-card:nth-child(3) { animation-delay: .15s }
+    .review-card:nth-child(4) { animation-delay: .20s }
+    .review-card:nth-child(5) { animation-delay: .25s }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .page-body { grid-template-columns: 1fr; }
+      .sidebar { order: -1; }
+    }
+
+    @media (max-width: 600px) {
+      .navbar { padding: 0 16px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 12px; }
+      .page-body { padding: 32px 16px 60px; }
+      .reviews-hero { padding: 56px 16px 48px; }
+      .hero-stats { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header>
+  <nav class="navbar">
+    <div class="logo"><h2>Travel Explorer</h2></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="reviews.html" class="active">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="reviews-hero">
+  <h1>Traveller <span>Reviews</span></h1>
+  <p>Real stories from real explorers. Find out what fellow travellers loved about their trips.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num" id="totalReviews">0</div>
+      <div class="hero-stat-label">Total Reviews</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4.8</div>
+      <div class="hero-stat-label">Average Rating</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">10</div>
+      <div class="hero-stat-label">Destinations</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">96%</div>
+      <div class="hero-stat-label">Recommend Us</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAGE BODY ══ -->
+<div class="page-body">
+
+  <!-- ── LEFT: REVIEWS FEED ── -->
+  <div class="reviews-feed">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="5">⭐ 5 Star</button>
+      <button class="filter-btn" data-filter="4">⭐ 4 Star</button>
+      <button class="filter-btn" data-filter="3">⭐ 3 Star</button>
+      <select class="sort-select" id="sortSelect">
+        <option value="newest">Newest First</option>
+        <option value="highest">Highest Rated</option>
+        <option value="lowest">Lowest Rated</option>
+        <option value="helpful">Most Helpful</option>
+      </select>
+    </div>
+
+    <!-- Reviews injected by JS -->
+    <div id="reviewsList"></div>
+
+    <div class="load-more">
+      <button class="btn-load" onclick="loadMore()">Load More Reviews ↓</button>
+    </div>
+
+  </div>
+
+  <!-- ── RIGHT: SIDEBAR ── -->
+  <div class="sidebar">
+
+    <!-- Rating breakdown -->
+    <div class="sidebar-card">
+      <h3>Overall Rating</h3>
+      <div class="rating-big">
+        <div class="rating-num">4.8</div>
+        <div class="rating-right">
+          <div class="rating-stars-big">
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+          </div>
+          <div class="rating-count">Based on 248 reviews</div>
+        </div>
+      </div>
+      <div class="bar-row"><span class="bar-label">5</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><span class="bar-count">193</span></div>
+      <div class="bar-row"><span class="bar-label">4</span><div class="bar-track"><div class="bar-fill" style="width:14%"></div></div><span class="bar-count">35</span></div>
+      <div class="bar-row"><span class="bar-label">3</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div><span class="bar-count">12</span></div>
+      <div class="bar-row"><span class="bar-label">2</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-count">5</span></div>
+      <div class="bar-row"><span class="bar-label">1</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div><span class="bar-count">3</span></div>
+    </div>
+
+    <!-- Top Destinations by Rating -->
+    <div class="sidebar-card">
+      <h3>Top Rated Destinations</h3>
+      <div class="top-dest-item">
+        <span class="top-dest-rank">#1</span>
+        <img class="top-dest-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100" alt="Maldives"/>
+        <div class="top-dest-info">
+          <div class="top-dest-name">Maldives</div>
+          <div class="top-dest-stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+        </div>
+      </div>
+      <div class="top-dest-item">
+        <span class="top-dest-rank">#2</span>
+        <img class="top-dest-img" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=100" alt="Bali"/>
+        <div class="top-dest-info">
+          <div class="top-dest-name">Bali</div>
+          <div class="top-dest-stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+        </div>
+      </div>
+      <div class="top-dest-item">
+        <span class="top-dest-rank">#3</span>
+        <img class="top-dest-img" src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=100" alt="Kashmir"/>
+        <div class="top-dest-info">
+          <div class="top-dest-name">Kashmir</div>
+          <div class="top-dest-stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+        </div>
+      </div>
+      <div class="top-dest-item">
+        <span class="top-dest-rank">#4</span>
+        <img class="top-dest-img" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=100" alt="Paris"/>
+        <div class="top-dest-info">
+          <div class="top-dest-name">Paris</div>
+          <div class="top-dest-stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star half">★</span></div>
+        </div>
+      </div>
+      <div class="top-dest-item">
+        <span class="top-dest-rank">#5</span>
+        <img class="top-dest-img" src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=100" alt="Kerala"/>
+        <div class="top-dest-info">
+          <div class="top-dest-name">Kerala</div>
+          <div class="top-dest-stars"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Write a Review -->
+    <div class="sidebar-card">
+      <h3>Write a Review</h3>
+      <form id="reviewForm" onsubmit="submitReview(event)">
+
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="rName" placeholder="e.g. Priya Sharma" required/>
+        </div>
+
+        <div class="form-group">
+          <label>Destination</label>
+          <select id="rDest" required>
+            <option value="">— Select destination —</option>
+            <option>Maldives</option>
+            <option>Switzerland</option>
+            <option>Kashmir</option>
+            <option>Kerala</option>
+            <option>Istanbul</option>
+            <option>Bali</option>
+            <option>Turkey</option>
+            <option>Goa</option>
+            <option>Paris</option>
+            <option>Dubai</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Your Rating</label>
+          <div class="star-picker" id="starPicker">
+            <span class="star-pick" data-val="1">★</span>
+            <span class="star-pick" data-val="2">★</span>
+            <span class="star-pick" data-val="3">★</span>
+            <span class="star-pick" data-val="4">★</span>
+            <span class="star-pick" data-val="5">★</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Review Title</label>
+          <input type="text" id="rTitle" placeholder="Sum it up in one line" required/>
+        </div>
+
+        <div class="form-group">
+          <label>Your Experience</label>
+          <textarea id="rText" placeholder="Tell other travellers about your trip..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Travel Type</label>
+          <select id="rType">
+            <option>Solo</option>
+            <option>Couple</option>
+            <option>Family</option>
+            <option>Friends</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit">Post My Review ✈️</button>
+        <div class="form-success" id="formSuccess">✅ Thank you! Your review has been posted.</div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ LIGHTBOX ══ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img id="lightboxImg" src="" alt="Photo"/>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p><strong>Travel Explorer</strong> — Travel Beyond Limits · © 2026</p>
+</footer>
+
+<script>
+  /* ══════════════════════════════════════════
+     DATA
+  ══════════════════════════════════════════ */
+  const avatarColors = ['#0fa3b1','#e85d04','#7b2d8b','#2d6a4f','#b5451b','#1a4a7a','#6d4c41','#2e7d32'];
+
+  const reviews = [
+    {
+      id: 1, name: 'Priya Sharma', city: 'Hyderabad', dest: 'Maldives',
+      rating: 5, title: 'Absolute paradise on Earth 🌊',
+      text: 'I visited Maldives for my honeymoon and it exceeded every expectation. The overwater bungalow at Taj Exotica was breathtaking — waking up to the turquoise lagoon every morning was surreal. Snorkelling with manta rays was the highlight. The staff were incredibly attentive. Worth every rupee!',
+      photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200','https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=200'],
+      type: 'Couple', date: 'April 2026', helpful: 42, avatar: null
+    },
+    {
+      id: 2, name: 'Arjun Mehta', city: 'Mumbai', dest: 'Bali',
+      rating: 5, title: 'Bali completely stole my heart 🌺',
+      text: "Spent 10 days in Bali and it felt like a different world. Ubud's rice terraces are something straight out of a dream. The food is incredibly affordable — you can eat like a king for ₹300. The people are so warm and welcoming. I'm already planning my second trip. Canggu was my favourite neighbourhood for the vibe.",
+      photos: ['https://images.unsplash.com/photo-1548013146-72479768bada?w=200'],
+      type: 'Friends', date: 'March 2026', helpful: 38, avatar: null
+    },
+    {
+      id: 3, name: 'Sneha Reddy', city: 'Bengaluru', dest: 'Kashmir',
+      rating: 5, title: 'Heaven on Earth — truly ❄️',
+      text: 'Kashmir in January was magical beyond words. The snow-covered Dal Lake, the warmth of the houseboat hosts, the aroma of Kahwa every morning — I could write a book about it. The gondola ride in Gulmarg gave views I will never forget. Highly recommend booking through Travel Explorer — their package was seamless.',
+      photos: ['https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=200','https://images.unsplash.com/photo-1559668220-93e6c0c9d1be?w=200'],
+      type: 'Solo', date: 'January 2026', helpful: 61, avatar: null
+    },
+    {
+      id: 4, name: 'Vikram Nair', city: 'Chennai', dest: 'Dubai',
+      rating: 4, title: 'Incredible city — a little overwhelming!',
+      text: 'Dubai is everything you see in pictures but even more intense in person. The Burj Khalifa sunset was jaw-dropping. Desert safari was a must-do. My only complaint is that it gets expensive very quickly — budget carefully. The metro system is excellent and easy for tourists. Overall a fantastic trip with family.',
+      photos: ['https://images.unsplash.com/photo-1526481280695-3c4691b8ce89?w=200'],
+      type: 'Family', date: 'February 2026', helpful: 27, avatar: null
+    },
+    {
+      id: 5, name: 'Divya Krishnan', city: 'Pune', dest: 'Kerala',
+      rating: 5, title: 'The perfect digital detox 🌿',
+      text: "Kerala's backwaters are unlike anything I've experienced. Three days on a private houseboat drifting through Alleppey's canals — no phone signal, just the sound of birds and water. The Ayurvedic massage at Leela Kovalam was deeply rejuvenating. Kerala is genuinely God's Own Country. Can't wait to go back.",
+      photos: ['https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=200','https://images.unsplash.com/photo-1570789210967-2cac24afeb00?w=200'],
+      type: 'Couple', date: 'December 2025', helpful: 55, avatar: null
+    },
+    {
+      id: 6, name: 'Rahul Gupta', city: 'Delhi', dest: 'Switzerland',
+      rating: 5, title: 'A fairytale come to life 🏔️',
+      text: 'Switzerland in December felt like stepping into a snow globe. The Glacier Express train journey was the most scenic thing I have ever done. Interlaken for adventure, Lucerne for culture, Zurich for shopping. It is expensive but every franc is worth it. The cheese fondue in a mountain hut was an unforgettable experience.',
+      photos: ['https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=200'],
+      type: 'Couple', date: 'December 2025', helpful: 33, avatar: null
+    },
+    {
+      id: 7, name: 'Meera Patel', city: 'Ahmedabad', dest: 'Paris',
+      rating: 4, title: 'Beautiful, a bit touristy 🗼',
+      text: "Paris lives up to the hype but also to the stereotypes. The Eiffel Tower at night is genuinely magical. The Louvre needs two full days minimum. My honest tip: skip the main tourist restaurants near landmarks — walk two streets away and find the real French food. The Metro is easy once you figure it out. Overall 4/5 — would have been 5 but the pickpocketing stress was real.",
+      photos: ['https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=200'],
+      type: 'Solo', date: 'November 2025', helpful: 19, avatar: null
+    },
+    {
+      id: 8, name: 'Karthik Sundaram', city: 'Coimbatore', dest: 'Goa',
+      rating: 5, title: 'The perfect long weekend escape 🏖️',
+      text: "Goa never gets old. This was my 4th visit and I discovered a completely different side — North Goa for party, South Goa for peace. The seafood at the beach shacks is unbeatable. Hiring a scooty and just exploring with no plan was the best decision. Perfect for groups. Travel Explorer's package saved us a lot compared to booking separately.",
+      photos: ['https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?w=200'],
+      type: 'Friends', date: 'October 2025', helpful: 47, avatar: null
+    }
+  ];
+
+  let visibleCount  = 5;
+  let currentFilter = 'all';
+  let currentSort   = 'newest';
+  let helpfulClicked = {};
+  let selectedRating = 0;
+  let userReviews    = [];
+
+  /* ══════════════════════════════════════════
+     RENDER
+  ══════════════════════════════════════════ */
+  function getFilteredReviews() {
+    let all = [...userReviews, ...reviews];
+
+    if (currentFilter !== 'all') {
+      all = all.filter(r => r.rating === parseInt(currentFilter));
+    }
+
+    if (currentSort === 'highest') all.sort((a,b) => b.rating - a.rating);
+    else if (currentSort === 'lowest') all.sort((a,b) => a.rating - b.rating);
+    else if (currentSort === 'helpful') all.sort((a,b) => b.helpful - a.helpful);
+    else all.sort((a,b) => b.id - a.id);
+
+    return all;
+  }
+
+  function renderStars(rating) {
+    return [1,2,3,4,5].map(i =>
+      `<span class="star ${i <= rating ? 'filled' : ''}"  >★</span>`
+    ).join('');
+  }
+
+  function renderReviews() {
+    const list = getFilteredReviews().slice(0, visibleCount);
+    const container = document.getElementById('reviewsList');
+
+    if (list.length === 0) {
+      container.innerHTML = `<div style="text-align:center;padding:48px;color:var(--muted);font-size:15px;">No reviews found for this filter.</div>`;
+      return;
+    }
+
+    container.innerHTML = list.map((r, i) => {
+      const initials = r.name.split(' ').map(w => w[0]).join('').toUpperCase();
+      const color    = avatarColors[r.id % avatarColors.length];
+      const liked    = helpfulClicked[r.id];
+
+      const photos = r.photos && r.photos.length
+        ? `<div class="review-photos">
+            ${r.photos.map(p => `<img class="review-photo" src="${p}" alt="travel photo" onclick="openLightbox('${p}')" loading="lazy"/>`).join('')}
+           </div>`
+        : '';
+
+      return `
+      <div class="review-card" style="animation-delay:${i * .06}s">
+        <div class="review-card-top">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar-placeholder" style="background:${color}">${initials}</div>
+            <div>
+              <div class="reviewer-name">${r.name}</div>
+              <div class="reviewer-meta">
+                <span>📍 ${r.city}</span>
+                <span>✈️ ${r.type}</span>
+              </div>
+            </div>
+          </div>
+          <div class="stars">${renderStars(r.rating)}</div>
+        </div>
+
+        <div class="dest-tag">📌 ${r.dest}</div>
+
+        <div class="review-title">${r.title}</div>
+        <div class="review-text">${r.text}</div>
+
+        ${photos}
+
+        <div class="review-card-footer">
+          <span class="review-date">🗓 ${r.date}</span>
+          <div class="helpful-row">
+            <span class="helpful-label">Helpful?</span>
+            <button class="helpful-btn ${liked ? 'liked' : ''}" onclick="markHelpful(${r.id}, this)">
+              👍 ${liked ? r.helpful + 1 : r.helpful}
+            </button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('totalReviews').textContent = userReviews.length + reviews.length;
+  }
+
+  function loadMore() {
+    visibleCount += 4;
+    renderReviews();
+  }
+
+  /* ══════════════════════════════════════════
+     FILTER + SORT
+  ══════════════════════════════════════════ */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      visibleCount  = 5;
+      renderReviews();
+    });
+  });
+
+  document.getElementById('sortSelect').addEventListener('change', e => {
+    currentSort  = e.target.value;
+    visibleCount = 5;
+    renderReviews();
+  });
+
+  /* ══════════════════════════════════════════
+     HELPFUL
+  ══════════════════════════════════════════ */
+  function markHelpful(id, btn) {
+    if (helpfulClicked[id]) return;
+    helpfulClicked[id] = true;
+    btn.classList.add('liked');
+    const r = [...userReviews, ...reviews].find(r => r.id === id);
+    if (r) btn.innerHTML = `👍 ${r.helpful + 1}`;
+  }
+
+  /* ══════════════════════════════════════════
+     STAR PICKER
+  ══════════════════════════════════════════ */
+  document.querySelectorAll('.star-pick').forEach(star => {
+    star.addEventListener('mouseover', () => {
+      const val = parseInt(star.dataset.val);
+      document.querySelectorAll('.star-pick').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+      });
+    });
+
+    star.addEventListener('mouseout', () => {
+      document.querySelectorAll('.star-pick').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedRating);
+      });
+    });
+
+    star.addEventListener('click', () => {
+      selectedRating = parseInt(star.dataset.val);
+      document.querySelectorAll('.star-pick').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedRating);
+      });
+    });
+  });
+
+  /* ══════════════════════════════════════════
+     SUBMIT REVIEW
+  ══════════════════════════════════════════ */
+  function submitReview(e) {
+    e.preventDefault();
+    if (!selectedRating) { alert('Please select a star rating!'); return; }
+
+    const name  = document.getElementById('rName').value.trim();
+    const dest  = document.getElementById('rDest').value;
+    const title = document.getElementById('rTitle').value.trim();
+    const text  = document.getElementById('rText').value.trim();
+    const type  = document.getElementById('rType').value;
+
+    const newReview = {
+      id:      Date.now(),
+      name, city: 'India', dest, rating: selectedRating,
+      title, text, photos: [],
+      type, date: 'Just now', helpful: 0
+    };
+
+    userReviews.unshift(newReview);
+    visibleCount = 5;
+    currentFilter = 'all';
+    currentSort   = 'newest';
+
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+    document.getElementById('sortSelect').value = 'newest';
+
+    renderReviews();
+
+    document.getElementById('reviewForm').reset();
+    selectedRating = 0;
+    document.querySelectorAll('.star-pick').forEach(s => s.classList.remove('active'));
+
+    const msg = document.getElementById('formSuccess');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 4000);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ══════════════════════════════════════════
+     LIGHTBOX
+  ══════════════════════════════════════════ */
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  /* ══ INIT ══ */
+  renderReviews();
+</script>
+</body>
+</html>
