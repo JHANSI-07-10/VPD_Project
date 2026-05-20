@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resorts - Travel Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        /* ---- Resort Hero ---- */
+
+        .resort-hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                        url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1400')
+                        center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .resort-hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .resort-hero p {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* ---- Filter Bar ---- */
+
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 35px 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .filter-btn {
+            padding: 10px 22px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #333;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: #00b4d8;
+            border-color: #00b4d8;
+            color: white;
+        }
+
+        /* ---- Resorts Section ---- */
+
+        .resorts-section {
+            padding: 60px 50px;
+            background-color: #f5f5f5;
+        }
+
+        .resorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        /* ---- Resort Card ---- */
+
+        .resort-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.09);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .resort-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+        }
+
+        .resort-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+
+        .resort-card-body {
+            padding: 22px;
+        }
+
+        .resort-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .resort-badge {
+            background-color: #00b4d8;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resort-badge.luxury   { background-color: #e63946; }
+        .resort-badge.premium  { background-color: #f4a261; }
+        .resort-badge.popular  { background-color: #2a9d8f; }
+        .resort-badge.trending { background-color: #6a0dad; }
+        .resort-badge.value    { background-color: #457b9d; }
+
+        .resort-rating {
+            color: #f5a623;
+            font-size: 15px;
+        }
+
+        .resort-card-body h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        .resort-location {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .resort-location span {
+            color: #00b4d8;
+            font-weight: 500;
+        }
+
+        .resort-card-body p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.65;
+            margin-bottom: 16px;
+        }
+
+        .resort-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 14px;
+        }
+
+        .resort-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #00b4d8;
+        }
+
+        .resort-price span {
+            font-size: 12px;
+            font-weight: 400;
+            color: #aaa;
+        }
+
+        .book-btn {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .book-btn:hover {
+            background-color: #0096b7;
+        }
+
+        /* hidden card */
+        .resort-card.hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h2>Travel Explorer</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="resorts.html">Resorts</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Resort Hero -->
+    <section class="resort-hero">
+        <div class="hero-content">
+            <h1>🏨 Top Resorts</h1>
+            <p>Handpicked luxury stays across the world's most beautiful destinations</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterResorts('all', this)">All Resorts</button>
+        <button class="filter-btn" onclick="filterResorts('Maldives', this)">🌊 Maldives</button>
+        <button class="filter-btn" onclick="filterResorts('Kashmir', this)">🏔️ Kashmir</button>
+        <button class="filter-btn" onclick="filterResorts('Dubai', this)">🏙️ Dubai</button>
+        <button class="filter-btn" onclick="filterResorts('Kerala', this)">🌴 Kerala</button>
+        <button class="filter-btn" onclick="filterResorts('Bali', this)">🌺 Bali</button>
+        <button class="filter-btn" onclick="filterResorts('Paris', this)">🗼 Paris</button>
+        <button class="filter-btn" onclick="filterResorts('Goa', this)">🏖️ Goa</button>
+        <button class="filter-btn" onclick="filterResorts('Turkey', this)">🕌 Turkey</button>
+    </div>
+
+    <!-- Resorts Section -->
+    <section class="resorts-section">
+
+        <h2 class="section-title">Our Featured Resorts</h2>
+
+        <div class="resorts-grid" id="resorts-grid">
+
+            <!-- Maldives -->
+            <div class="resort-card" data-destination="Maldives">
+                <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=600" alt="Soneva Jani">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge luxury">Luxury</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Soneva Jani</h3>
+                    <p class="resort-location">📍 <span>Maldives</span></p>
+                    <p>Overwater villas with private pools and stunning lagoon views. Ultimate island privacy and barefoot luxury.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹1,20,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Maldives">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Taj Exotica">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge premium">Premium</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Taj Exotica</h3>
+                    <p class="resort-location">📍 <span>Maldives</span></p>
+                    <p>Crystal-clear lagoons, fine dining and world-class spa. A perfect blend of Indian hospitality and tropical paradise.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹95,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dubai -->
+            <div class="resort-card" data-destination="Dubai">
+                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600" alt="Burj Al Arab">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge luxury">Luxury</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Burj Al Arab</h3>
+                    <p class="resort-location">📍 <span>Dubai</span></p>
+                    <p>Iconic 7-star resort with world-class amenities, private beach and breathtaking views of the Arabian Gulf.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹80,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Dubai">
+                <img src="https://images.unsplash.com/photo-1526481280695-3c4691b8ce89?w=600" alt="Atlantis The Palm">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge trending">Trending</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Atlantis The Palm</h3>
+                    <p class="resort-location">📍 <span>Dubai</span></p>
+                    <p>Iconic Palm Jumeirah resort with water parks, aquariums, celebrity restaurants and private beach access.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹55,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bali -->
+            <div class="resort-card" data-destination="Bali">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600" alt="Ayana Resort Bali">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge trending">Trending</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Ayana Resort</h3>
+                    <p class="resort-location">📍 <span>Bali</span></p>
+                    <p>Clifftop resort with infinity pools, rock bar, award-winning spa and breathtaking sunset views over the Indian Ocean.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹35,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Bali">
+                <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=600" alt="Hanging Gardens Bali">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge premium">Premium</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Hanging Gardens</h3>
+                    <p class="resort-location">📍 <span>Bali</span></p>
+                    <p>Nestled in the UNESCO-listed Ubud rainforest, famous for its multi-tiered infinity pool and jungle luxury villas.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹42,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kashmir -->
+            <div class="resort-card" data-destination="Kashmir">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600" alt="Khyber Resort">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge value">Best Value</span>
+                        <span class="resort-rating">★★★★☆</span>
+                    </div>
+                    <h3>Khyber Resort</h3>
+                    <p class="resort-location">📍 <span>Kashmir</span></p>
+                    <p>Luxury mountain retreat in Gulmarg with panoramic Himalayan views, ski-in/ski-out access and cozy fireside dining.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹18,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Kashmir">
+                <img src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=600" alt="Vivanta Dal View">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge popular">Popular</span>
+                        <span class="resort-rating">★★★★☆</span>
+                    </div>
+                    <h3>Vivanta Dal View</h3>
+                    <p class="resort-location">📍 <span>Kashmir</span></p>
+                    <p>Elegant lakeside property overlooking the famous Dal Lake, offering shikara rides and traditional Kashmiri cuisine.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹14,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kerala -->
+            <div class="resort-card" data-destination="Kerala">
+                <img src="https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=600" alt="Leela Kovalam">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge popular">Popular</span>
+                        <span class="resort-rating">★★★★☆</span>
+                    </div>
+                    <h3>Leela Kovalam</h3>
+                    <p class="resort-location">📍 <span>Kerala</span></p>
+                    <p>Cliff-top resort overlooking the Arabian Sea with Ayurveda spa, lush tropical gardens and Kerala cultural shows.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹15,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Kerala">
+                <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600" alt="Taj Bekal Kerala">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge premium">Premium</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Taj Bekal</h3>
+                    <p class="resort-location">📍 <span>Kerala</span></p>
+                    <p>Sprawling riverside resort with private pool villas, traditional Kerala architecture and serene backwater views.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹25,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goa -->
+            <div class="resort-card" data-destination="Goa">
+                <img src="https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?w=600" alt="W Goa">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge trending">Trending</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>W Goa</h3>
+                    <p class="resort-location">📍 <span>Goa</span></p>
+                    <p>Beachfront luxury with bold design, rooftop pool, WET bar and direct access to the golden sands of Vagator Beach.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹22,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Goa">
+                <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600" alt="Taj Fort Aguada">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge popular">Popular</span>
+                        <span class="resort-rating">★★★★☆</span>
+                    </div>
+                    <h3>Taj Fort Aguada</h3>
+                    <p class="resort-location">📍 <span>Goa</span></p>
+                    <p>Historic 17th-century Portuguese fort turned luxury resort, set on a dramatic cliff overlooking the Arabian Sea.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹18,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paris -->
+            <div class="resort-card" data-destination="Paris">
+                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Ritz Paris">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge luxury">Luxury</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Ritz Paris</h3>
+                    <p class="resort-location">📍 <span>Paris</span></p>
+                    <p>Legendary palace hotel on Place Vendôme offering unparalleled elegance, Michelin-star dining and the iconic Ritz Bar.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹1,50,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Paris">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600" alt="Le Bristol Paris">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge premium">Premium</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Le Bristol</h3>
+                    <p class="resort-location">📍 <span>Paris</span></p>
+                    <p>Classic Parisian palace on Rue du Faubourg Saint-Honoré, featuring rooftop pool, French garden and 3-star Michelin restaurant.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹1,20,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Turkey -->
+            <div class="resort-card" data-destination="Turkey">
+                <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600" alt="Museum Hotel Turkey">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge premium">Premium</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Museum Hotel</h3>
+                    <p class="resort-location">📍 <span>Turkey</span></p>
+                    <p>Carved into the cliffs of Cappadocia, this boutique hotel offers cave rooms, balloon views and ancient artifact collections.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹45,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resort-card" data-destination="Turkey">
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600" alt="Ciragan Palace">
+                <div class="resort-card-body">
+                    <div class="resort-top">
+                        <span class="resort-badge luxury">Luxury</span>
+                        <span class="resort-rating">★★★★★</span>
+                    </div>
+                    <h3>Çırağan Palace</h3>
+                    <p class="resort-location">📍 <span>Turkey</span></p>
+                    <p>Ottoman imperial palace on the Bosphorus waterfront, offering regal suites, outdoor pool and stunning Istanbul skyline views.</p>
+                    <div class="resort-footer">
+                        <div class="resort-price">₹70,000 <span>/ night</span></div>
+                        <a href="packages.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Travel Explorer</h3>
+            <p>Explore Beautiful Destinations Around The World</p>
+        </div>
+    </footer>
+
+    <script>
+        function filterResorts(destination, btn) {
+
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show/hide cards
+            document.querySelectorAll('.resort-card').forEach(card => {
+                if (destination === 'all' || card.dataset.destination === destination) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
